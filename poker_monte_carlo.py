@@ -226,6 +226,10 @@ def my_hand(self):
 
     # Check flush
     if max(suit_collector.values()) >= 5 and not straight_flush and not royal:
+        high_card = False
+        pair = False
+        two_pair = False
+        trips = False
         flush = True
 
     # Check boat
@@ -263,5 +267,7 @@ def my_hand(self):
         print("flush")
     if quads:
         print("quads")
+    if boat:
+        print("boat")
     if royal:
         print("royal")
