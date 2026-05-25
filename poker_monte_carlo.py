@@ -1,7 +1,7 @@
 import random
-import numpy
-import pandas
-import mathplotlib
+#import numpy as np
+#import pandas as pd
+#import mathplotlib
 from abc import ABC, abstractmethod
 
 class Player(ABC):
@@ -23,19 +23,19 @@ class Player(ABC):
     with these styles (myself included).
     """
 
-    def __init__(self, net_winnings=0: int, current_stack=50: int) -> None:
+    def __init__(self, net_winnings=0, current_stack=50):
 
         self.net_winnings = net_winnings
         self.current_stack = current_stack
         self.hand = []
         self.hand_type = "High Card"
 
-    def pot_odds(self):
-        raise NotImplementedError
+    #def pot_odds(self):
+    #    raise NotImplementedError
 
-    @abstractmethod
-    def am_i_good(self):
-        raise NotImplementedError
+    #@abstractmethon
+    #def am_i_good(self):
+    #    raise NotImplementedError
 
 class Card:
 
@@ -48,76 +48,79 @@ class Card:
         k -> 13
         a -> 15
         """
+        self.val = 100
+        self.suit = "undetermined"
         # determine value
-        if str_card_repr[0] == "0":
-            self.val = 10
-        if str_card_repr[0] == "j":
-            self.val = 11
-        if str_card_repr[0] == "q":
-            self.val = 12
-        if str_card_repr[0] == "k":
-            self.val = 13
-        if str_card_repr[0] == "a":
-            self.val = 15
-        else:
-            self.val = int(str_card_repr[0])
+        if True:
+            if str_card_repr[0] == "0":
+                self.val = 10
+            elif str_card_repr[0] == "j":
+                self.val = 11
+            elif str_card_repr[0] == "q":
+                self.val = 12
+            elif str_card_repr[0] == "k":
+                self.val = 13
+            elif str_card_repr[0] == "a":
+                self.val = 15
+            else:
+                self.val = int(str_card_repr[0])
         
         # determine suit
-        if str_card_repr[1] == "h":
-            self.suit == "hearts"
-        if str_card_repr[1] == "c":
-            self.suit == "clubs"
-        if str_card_repr == "s":
-            self.suit == "spades"
-        if str_card_repr == "d":
-            self.suit == "diamonds"
-        
+        if True:
+            if str_card_repr[1] == "h":
+                self.suit = "hearts"
+            if str_card_repr[1] == "c":
+                self.suit = "clubs"
+            if str_card_repr[1] == "s":
+                self.suit = "spades"
+            if str_card_repr[1] == "d":
+                self.suit = "diamonds"
         self.str_card_repr = str_card_repr
 
-class Fish(Player):
-    """
-    Loose / Weak
-    """
+# class Fish(Player):
+#     """
+#     Loose / Weak
+#     """
 
-class Wyatt(Player):
-    """
-    Loose / Medium
-    """
+# class Wyatt(Player):
+#     """
+#     Loose / Medium
+#     """
         
-class Lag(Player):
-    """
-    Loose / Agressive
-    """
+# class Lag(Player):
+#     """
+#     Loose / Agressive
+#     """
         
-class Chedda(Player):
-    """
-    Medium / Weak
-    """
+# class Chedda(Player):
+#     """
+#     Medium / Weak
+#     """
 
-class Dom(Player):
-    """
-    Medium / Medium
-    """
+# class Dom(Player):
+#     """
+#     Medium / Medium
+#     """
 
-class Kuhn(Player):
-    """
-    Medium / Agressive
-    """
+# class Kuhn(Player):
+#     """
+#     Medium / Agressive
+#     """
     
-class Nit(Player):
-    """
-    Tight / Weak
-    """
+# class Nit(Player):
+#     """
+#     Tight / Weak
+#     """
     
-class Jaxon(Player):
-    """
-    Tight / Medium
-    """
+# class Jaxon(Player):
+#     """
+#     Tight / Medium
+#     """
     
-class Tag(Player):
-    """
-    Tight / Agressive
-    """
+# class Tag(Player):
+#     """
+#     Tight / Agressive
+#    """
 
 
 #Probably going in the loop
@@ -128,7 +131,10 @@ for i in suits:
     for j in vals:
         strin = j + i
         deck.append(Card(strin))
-
+straights = (
+    "a2345", "23456", "34567", "45678", "56789",
+    "67890", "7890j", "890jq", "90jqk", "0jqka"
+            )
 
 def my_hand(self):
     """
@@ -152,6 +158,12 @@ def my_hand(self):
         val_collector[card.str_card_repr[0]] += 1
         suit_collector[card.str_card_repr[1]] += 1
 
+    suit_of_interest = "z"
+    for key, item in suit_collector.items():
+        if item > 4:
+            suit_of_interest = key
+            break
+
     high_card = True
     pair = False
     two_pair = False
@@ -166,7 +178,7 @@ def my_hand(self):
     # Check pair and two pair
     if max(val_collector.values()) == 2:
         count = 0
-        for _, v in val_collector:
+        for v in val_collector.values():
             if v == 2:
                 count += 1
         if count == 1:
@@ -183,6 +195,34 @@ def my_hand(self):
         trips = True
 
     # Check straight / straight flush / royal flush
+    straight_num = 100
+    straight_flush_num = 100
+    for i in range(10):
+        n = 0
+        m = 0
+        for x in straights[i]:
+            if val_collector[x] > 0:
+                n += 1
+        if n > 4:
+            straight_num = i
+            straight = True
+            trips = False
+            pair = False
+            two_pair = False
+            high_card = False
+            if max(suit_collector.values()) > 4:
+                for each_card in self.hand:
+                    if (each_card.str_card_repr[0] in straights[straight_num]
+                    and each_card.str_card_repr[1] == suit_of_interest):
+                        m += 1
+            if m > 4:
+                straight_flush_num = i
+                straight_num = 100
+                straight_flush = True
+                straight = False
+    if straight_flush_num == 9:
+        royal = True
+        straight_flush = False
 
     # Check flush
     if max(suit_collector.values()) >= 5 and not straight_flush and not royal:
@@ -191,7 +231,7 @@ def my_hand(self):
     # Check boat
     if 3 in val_collector.values() and not straight_flush and not royal:
         count = 0
-        for _, v in val_collector:
+        for v in val_collector.values():
             if v >= 2:
                 count += 1
         if count >= 2:
@@ -201,8 +241,27 @@ def my_hand(self):
             boat = True
 
     # Check quads
-    if max(val_collector.values()) == 4 and not straight_flush and not royal:
+    if max(val_collector.values()) == 4:
         high_card = False
         flush = False
         boat = False
         quads = True
+
+    if high_card:
+        print("high card")
+    if pair:
+        print("pair")
+    if two_pair:
+        print("two pair")
+    if trips:
+        print("trips")
+    if straight:
+        print("straight")
+    if straight_flush:
+        print("straight flush")
+    if flush:
+        print("flush")
+    if quads:
+        print("quads")
+    if royal:
+        print("royal")
