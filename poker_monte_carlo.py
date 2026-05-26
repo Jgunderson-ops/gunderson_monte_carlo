@@ -142,6 +142,7 @@ def my_hand(self):
     Protocol: default to high card, check if each hand is possible,
     then if it is, assemble the best hand given the hand they have.
     """
+    self.five_card = []
     val_collector = {"a": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0,
                      "8": 0, "9": 0, "0": 0, "j": 0, "q": 0, "k": 0}
     
@@ -277,7 +278,21 @@ def my_hand(self):
     if flush:
         print("flush")
     if quads:
+        for k, v in val_collector.items():
+            if v == 4:
+                special = k
+        for i, x in enumerate(self.hand):
+            if x.str_card_repr[0] == special:
+                self.five_card.append(x)
+        self.five_card.append(self.hand[0])
+        for i, card in enumerate(self.hand):
+            if card.val > self.five_card[-1].val:
+                self.five_card.pop(-1)
+                self.five_card.append(card)
         print("quads")
+        for card in self.five_card:
+            print(card.str_card_repr)
+        return self.five_card
     if boat:
         print("boat")
     if royal:
