@@ -28,6 +28,7 @@ class Player(ABC):
         self.net_winnings = net_winnings
         self.current_stack = current_stack
         self.hand = []
+        self.five_card = []
         self.hand_type = "High Card"
 
     #def pot_odds(self):
@@ -139,16 +140,8 @@ straights = (
 def my_hand(self):
     """
     Protocol: default to high card, check if each hand is possible,
-    then if it is, create the best hand given that hand they 
-    have. This should be efficient, since it will check each criteria,
-    which should be quick enough, then make one hand.
-    
-    I know that a royal flush is technically nothing more than a straight flush,
-    but if the simulation catches one, that would be cool, so I want to record it.
-    odds 649739 : 1
+    then if it is, assemble the best hand given the hand they have.
     """
-    self.five_card = []
-    
     val_collector = {"a": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0,
                      "8": 0, "9": 0, "0": 0, "j": 0, "q": 0, "k": 0}
     
@@ -184,7 +177,6 @@ def my_hand(self):
         if count == 1:
             high_card = False
             pair = True
-        # Not specifically saying == 2 in case player has "three pair"
         elif count > 1:
             high_card = False
             two_pair = True
@@ -251,8 +243,27 @@ def my_hand(self):
         boat = False
         quads = True
 
+    # Assembly
     if high_card:
+        for j in range(10):
+            self.five_card = self.hand[:5]
+            outliers = self.hand[5:]
+            for i, x in enumerate(self.five_card):
+                if x.val < outliers[0].val:
+                    a = self.five_card.pop(i)
+                    self.five_card.insert(i, outliers[0])
+                    outliers.pop(0)
+                    outliers.insert(0, a)
+            for i, x in enumerate(self.five_card):
+                if x.val < outliers[1].val:
+                    b = self.five_card.pop(i)
+                    self.five_card.insert(i, outliers[1])
+                    outliers.pop(1)
+                    outliers.insert(1, b)
+        for card in self.five_card:
+            print(card.str_card_repr)
         print("high card")
+        return self.five_card
     if pair:
         print("pair")
     if two_pair:
