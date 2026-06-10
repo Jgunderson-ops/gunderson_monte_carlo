@@ -265,18 +265,137 @@ def my_hand(self):
             print(card.str_card_repr)
         print("high card")
         return self.five_card
+
     if pair:
+        outliers = []
+        for k, v in val_collector.items():
+            if v == 2:
+                special = k
+        for i, x in enumerate(self.hand):
+            if x.str_card_repr[0] == special:
+                self.five_card.append(x)
+            else:
+                outliers.append(x)
+        d = outliers.pop(0)
+        s = outliers.pop(0)
+        w = outliers.pop(0)
+        self.five_card.append(d)
+        self.five_card.append(s)
+        self.five_card.append(w)
+        for j in range(10):
+            for i, x in enumerate(self.five_card):
+                for c, h in enumerate(outliers):
+                    if x.val < outliers[c].val and i > 1:
+                        q = self.five_card.pop(i)
+                        self.five_card.insert(i, outliers[c])
+                        outliers.pop(c)
+                        outliers.insert(c, q)
+        for card in self.five_card:
+            print(card.str_card_repr)
         print("pair")
+        return self.five_card
+
     if two_pair:
+        outliers = []
+        for k, v in val_collector.items():
+            if v == 2:
+                special = k
+        for y, v in val_collector.items():
+            if v == 2 and y != special:
+                special2 = y
+        for i, x in enumerate(self.hand):
+            if x.str_card_repr[0] == special or x.str_card_repr[0] == special2:
+                self.five_card.append(x)
+            else:
+                outliers.append(x)
+        d = outliers.pop(0)
+        self.five_card.append(d)
+        for j in range(5):
+            for i, x in enumerate(outliers):
+                if x.val > self.five_card[-1].val:
+                    self.five_card.pop(-1)
+                    self.five_card.append(x)
+        for card in self.five_card:
+            print(card.str_card_repr)
         print("two pair")
+        return self.five_card
+
     if trips:
+        outliers = []
+        for k, v in val_collector.items():
+            if v == 3:
+                special = k
+        for i, x in enumerate(self.hand):
+            if x.str_card_repr[0] == special:
+                self.five_card.append(x)
+            else:
+                outliers.append(x)
+        d = outliers.pop(0)
+        w = outliers.pop(0)
+        self.five_card.append(d)
+        self.five_card.append(w)
+        for j in range(10):
+            for i, x in enumerate(self.five_card):
+                for c, h in enumerate(outliers):
+                    if x.val < outliers[c].val and i > 2:
+                        q = self.five_card.pop(i)
+                        self.five_card.insert(i, outliers[c])
+                        outliers.pop(c)
+                        outliers.insert(c, q)
+        for card in self.five_card:
+            print(card.str_card_repr)
         print("trips")
+        return self.five_card
+
     if straight:
+        cool_str = ""
+        for i, x in enumerate(self.hand):
+            if x.str_card_repr[0] in straights[straight_num] and (
+                x.str_card_repr[0] not in cool_str):
+                self.five_card.append(x)
+                cool_str += x.str_card_repr[0]
+        for card in self.five_card:
+            print(card.str_card_repr)
         print("straight")
-    if straight_flush:
-        print("straight flush")
+        return self.five_card
+
+    if straight_flush or royal:
+        cool_str = ""
+        for i, x in enumerate(self.hand):
+            if x.str_card_repr[0] in straights[straight_flush_num] and (
+                    x.str_card_repr[0] not in cool_str) and (
+                    x.str_card_repr[1] == suit_of_interest):
+                self.five_card.append(x)
+                cool_str += x.str_card_repr[0]
+        for card in self.five_card:
+            print(card.str_card_repr)
+        if straight_flush:
+            print("straight flush")
+        if royal:
+            print("royal")
+        return self.five_card
+
     if flush:
+        outliers = []
+        for i, x in enumerate(self.hand):
+            if x.str_card_repr[1] == suit_of_interest:
+                self.five_card.append(x)
+        while len(self.five_card) > 5:
+            d = self.five_card.pop(0)
+            outliers.append(d)
+        for j in range(10):
+            for i, x in enumerate(self.five_card):
+                for k, l in enumerate(outliers):
+                    if l.val > x.val:
+                        c = self.five_card.pop(i)
+                        d = outliers.pop(k)
+                        self.five_card.insert(i, d)
+                        outliers.insert(k, c)
+        for card in self.five_card:
+            print(card.str_card_repr)
         print("flush")
+        return self.five_card
+
     if quads:
         for k, v in val_collector.items():
             if v == 4:
@@ -284,16 +403,70 @@ def my_hand(self):
         for i, x in enumerate(self.hand):
             if x.str_card_repr[0] == special:
                 self.five_card.append(x)
-        self.five_card.append(self.hand[0])
-        for i, card in enumerate(self.hand):
-            if card.val > self.five_card[-1].val:
-                self.five_card.pop(-1)
-                self.five_card.append(card)
+        i = 0
+        while len(self.five_card) == 4:
+            if self.hand[i] not in self.five_card:
+                self.five_card.append(self.hand[i])
+            i += 1
+        for _ in range(4):
+            for i, card in enumerate(self.hand):
+                if card.val > self.five_card[-1].val and (
+                card.str_card_repr[0] != special):
+                    self.five_card.pop(-1)
+                    self.five_card.append(card)
         print("quads")
         for card in self.five_card:
             print(card.str_card_repr)
         return self.five_card
+
     if boat:
+        threes = 0
+        twos = 0
+        s_3_1 = ("", 0)
+        s_3_2 = ("", 0)
+        s_2_1 = ("", 0)
+        s_2_2 = ("", 0)
+        s_2_3 = ("", 0)
+        special_three = ""
+        special_two = ""
+        for k, v in val_collector.items():
+            if v == 3:
+                threes += 1
+                if s_3_1 == ("", 0):
+                    s_3_1 = (k, Card(k + "h").val)
+                else:
+                    s_3_2 = (k, Card(k + "h").val)
+            if v == 2:
+                twos += 1
+                if s_2_1 == ("", 0):
+                    s_2_1 = (k, Card(k + "h").val)
+                elif s_2_2 == ("", 0):
+                    s_2_2 = (k, Card(k + "h").val)
+                else:
+                    s_2_3 = (k, Card(k + "h").val)
+        if s_3_2 == ("", 0):
+            for card in self.hand:
+                if card.str_card_repr[0] == s_3_1[0]:
+                    self.five_card.append(card)
+            s_3_1 = ("", 0)
+        if s_3_2 != ("", 0):
+            if s_3_1[1] > s_3_2[1]:
+                for card in self.hand:
+                    if card.str_card_repr[0] == s_3_1[0]:
+                        self.five_card.append(card)
+                s_3_1 = ("", 0)
+            else:
+                for card in self.hand:
+                    if card.str_card_repr[0] == s_3_2[0]:
+                        self.five_card.append(card)
+                s_3_2 = ("", 0)
+        cool_cool = max(
+            s_3_1[1], s_3_2[1], s_2_1[1], s_2_2[1], s_2_2[1], s_2_3[1]
+            )
+        for card in self.hand:
+            if card.val == cool_cool and len(self.five_card) < 5:
+                self.five_card.append(card)
+        for card in self.five_card:
+            print(card.str_card_repr)
         print("boat")
-    if royal:
-        print("royal")
+        return self.five_card
