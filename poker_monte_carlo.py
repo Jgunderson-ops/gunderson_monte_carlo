@@ -34,7 +34,7 @@ class Player(ABC):
     #def pot_odds(self):
     #    raise NotImplementedError
 
-    #@abstractmethon
+    #@abstractmethod
     #def am_i_good(self):
     #    raise NotImplementedError
 
