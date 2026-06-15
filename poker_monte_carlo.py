@@ -29,7 +29,7 @@ class Player(ABC):
         self.current_stack = current_stack
         self.hand = []
         self.five_card = []
-        self.hand_type = "High Card"
+        self.hand_val = 0
 
     #def pot_odds(self):
     #    raise NotImplementedError
@@ -158,6 +158,7 @@ def my_hand(self):
             suit_of_interest = key
             break
 
+    self.hand_val = 0
     high_card = True
     pair = False
     two_pair = False
@@ -178,14 +179,17 @@ def my_hand(self):
         if count == 1:
             high_card = False
             pair = True
+            self.hand_val = 1
         elif count > 1:
             high_card = False
             two_pair = True
+            self.hand_val = 2
 
     # Check trips
     if max(val_collector.values()) == 3:
         high_card = False
         trips = True
+        self.hand_val = 3
 
     # Check straight / straight flush / royal flush
     straight_num = 100
@@ -203,6 +207,7 @@ def my_hand(self):
             pair = False
             two_pair = False
             high_card = False
+            self.hand_val = 4
             if max(suit_collector.values()) > 4:
                 for each_card in self.hand:
                     if (each_card.str_card_repr[0] in straights[straight_num]
@@ -213,9 +218,11 @@ def my_hand(self):
                 straight_num = 100
                 straight_flush = True
                 straight = False
+                self.hand_val = 8
     if straight_flush_num == 9:
         royal = True
         straight_flush = False
+        self.hand_val = 9
 
     # Check flush
     if max(suit_collector.values()) >= 5 and not straight_flush and not royal:
@@ -224,6 +231,7 @@ def my_hand(self):
         two_pair = False
         trips = False
         flush = True
+        self.hand_val = 5
 
     # Check boat
     if 3 in val_collector.values() and not straight_flush and not royal:
@@ -236,6 +244,7 @@ def my_hand(self):
             trips = False
             flush = False
             boat = True
+            self.hand_val = 6
 
     # Check quads
     if max(val_collector.values()) == 4:
@@ -243,6 +252,7 @@ def my_hand(self):
         flush = False
         boat = False
         quads = True
+        self.hand_val = 7
 
     # Assembly
     if high_card:
@@ -470,3 +480,48 @@ def my_hand(self):
             print(card.str_card_repr)
         print("boat")
         return self.five_card
+
+def who_won(player_a, player_b):
+    if player_a.hand_val > player_b.hand_val:
+        return "player_a"
+    if player_b.hand_val > player_a.hand_val:
+        return "player_b"
+        # high card
+    if player_a.hand_val == 0:
+        raise NotImplementedError
+    
+    # pair
+    if player_a.hand_val == 1:
+        raise NotImplementedError
+    
+    # two pair
+    if player_a.hand_val == 2:
+        raise NotImplementedError
+
+    # trips
+    if player_a.hand_val == 3:
+        raise NotImplementedError
+    
+    # straight
+    if player_a.hand_val == 4:
+        raise NotImplementedError
+    
+    # flush
+    if player_a.hand_val == 5:
+        raise NotImplementedError
+    
+    # boat
+    if player_a.hand_val == 6:
+        raise NotImplementedError
+    
+    # quads
+    if player_a.hand_val == 7:
+        raise NotImplementedError
+
+    # straight flush
+    if player_a.hand_val == 8:
+        raise NotImplementedError
+    
+    # royal
+    if player_a.hand_val == 9:
+        return "chop"
