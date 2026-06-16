@@ -30,6 +30,7 @@ class Player(ABC):
         self.hand = []
         self.five_card = []
         self.hand_val = 0
+        self.straight_val = -1
 
     #def pot_odds(self):
     #    raise NotImplementedError
@@ -202,6 +203,7 @@ def my_hand(self):
                 n += 1
         if n > 4:
             straight_num = i
+            self.straight_val = i
             straight = True
             trips = False
             pair = False
@@ -215,6 +217,7 @@ def my_hand(self):
                         m += 1
             if m > 4:
                 straight_flush_num = i
+                self.straight_val = i
                 straight_num = 100
                 straight_flush = True
                 straight = False
@@ -486,6 +489,17 @@ def who_won(player_a, player_b):
         return "player_a"
     if player_b.hand_val > player_a.hand_val:
         return "player_b"
+
+    a_val_collector = {"a": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0,
+                     "8": 0, "9": 0, "0": 0, "j": 0, "q": 0, "k": 0}
+    b_val_collector = {"a": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0,
+                     "8": 0, "9": 0, "0": 0, "j": 0, "q": 0, "k": 0}
+
+    for card in player_a.five_card:
+        a_val_collector[card.str_card_repr[0]] += 1
+    for card in player_b.five_card:
+        b_val_collector[card.str_card_repr[0]] += 1
+
         # high card
     if player_a.hand_val == 0:
         raise NotImplementedError
@@ -504,7 +518,12 @@ def who_won(player_a, player_b):
     
     # straight
     if player_a.hand_val == 4:
-        raise NotImplementedError
+        if player_a.straight_val == player_b.straight_val:
+            return "chop"
+        elif player_a.straight_val > player_b.straight_val:
+            return "player_a"
+        elif player_a.straight_val < player_b.straight_val:
+            return "player_b"
     
     # flush
     if player_a.hand_val == 5:
@@ -512,15 +531,64 @@ def who_won(player_a, player_b):
     
     # boat
     if player_a.hand_val == 6:
-        raise NotImplementedError
+        p_a_3 = ""
+        p_a_2 = ""
+        p_b_3 = ""
+        p_b_2 = ""
+        for k, v in a_val_collector.items():
+            if v == 3:
+                p_a_3 = k
+            if v == 2:
+                p_a_2 = k
+        for k, v in b_val_collector.items():
+            if v == 3:
+                p_b_3 = k
+            if v == 2:
+                p_b_2 = k
+        if Card(p_a_3 + "h").val > Card(p_b_3 + "h").val:
+            return "player_a"
+        if Card(p_a_3 + "h").val < Card(p_b_3 + "h").val:
+            return "player_b"
+        if Card(p_a_2 + "h").val > Card(p_b_2 + "h").val:
+            return "player_a"
+        if Card(p_b_2 + "h").val < Card(p_b_2 + "h").val:
+            return "player_b"
+        return "chop"
     
     # quads
     if player_a.hand_val == 7:
-        raise NotImplementedError
-
+        p_a_4 = ""
+        p_a_1 = ""
+        p_b_4 = ""
+        p_b_1 = ""
+        for k, v in a_val_collector.items():
+            if v == 4:
+                p_a_4 = k
+            if v == 1:
+                p_a_1 = k
+        for k, v in b_val_collector.items():
+            if v == 4:
+                p_b_4 = k
+            if v == 1:
+                p_b_1 = k
+        if Card(p_a_4 + "h").val > Card(p_b_4 + "h").val:
+            return "player_a"
+        if Card(p_a_4 + "h").val < Card(p_b_4 + "h").val:
+            return "player_b"
+        if Card(p_a_1 + "h").val > Card(p_b_1 + "h").val:
+            return "player_a"
+        if Card(p_b_1 + "h").val < Card(p_b_1 + "h").val:
+            return "player_b"
+        return "chop"
+        
     # straight flush
     if player_a.hand_val == 8:
-        raise NotImplementedError
+        if player_a.straight_val == player_b.straight_val:
+            return "chop"
+        elif player_a.straight_val > player_b.straight_val:
+            return "player_a"
+        elif player_a.straight_val < player_b.straight_val:
+            return "player_b"
     
     # royal
     if player_a.hand_val == 9:
