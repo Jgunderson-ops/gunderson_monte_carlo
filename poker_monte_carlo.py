@@ -485,6 +485,10 @@ def my_hand(self):
         return self.five_card
 
 def who_won(player_a, player_b):
+    """
+    figures out winner, returns a string.
+    """
+
     if player_a.hand_val > player_b.hand_val:
         return "player_a"
     if player_b.hand_val > player_a.hand_val:
@@ -500,21 +504,124 @@ def who_won(player_a, player_b):
     for card in player_b.five_card:
         b_val_collector[card.str_card_repr[0]] += 1
 
-        # high card
-    if player_a.hand_val == 0:
-        raise NotImplementedError
+    # high card / flush
+    if player_a.hand_val == 0 or player_a.hand_val == 5:
+        a_others = []
+        b_others = []
+        for card in player_a.five_card:
+            a_others.append(card.val)
+        for card in player_b.five_card:
+            b_others.append(card.val)
+        for _ in range(5):
+            a_max = max(a_others)
+            b_max = max(b_others)
+            a_others.remove(a_max)
+            b_others.remove(b_max)
+            if a_max > b_max:
+                return "player_a"
+            elif a_max < b_max:
+                return "player_b"
+        return "chop"
     
     # pair
     if player_a.hand_val == 1:
-        raise NotImplementedError
+        p_a_pair_val = -1
+        p_b_pair_val = -1
+        a_others = []
+        b_others = []
+        for k, v in a_val_collector.items():
+            if v == 2:
+                p_a_pair_val = Card(k + "h").val
+            else:
+                a_others.append(Card(k + "h").val)
+        for k, v in b_val_collector.items():
+            if v == 2:
+                p_b_pair_val = Card(k + "h").val
+            elif v > 0:
+                b_others.append(Card(k + "h").val)
+        if p_a_pair_val > p_b_pair_val:
+            return "player_a"
+        elif p_a_pair_val < p_b_pair_val:
+            return "player_b"
+        for _ in range(3):
+            a_max = max(a_others)
+            b_max = max(b_others)
+            a_others.remove(a_max)
+            b_others.remove(b_max)
+            if a_max > b_max:
+                return "player_a"
+            elif a_max < b_max:
+                return "player_b"
+        return "chop"
     
     # two pair
     if player_a.hand_val == 2:
-        raise NotImplementedError
+        p_a_1 = -1
+        p_a_2 = -1
+        p_a_3 = -1
+        p_b_1 = -1
+        p_b_2 = -1
+        p_b_3 = -1
+        for k, v in a_val_collector.items():
+            if v == 2:
+                if p_a_1 == -1:
+                    p_a_1 = Card(k + "h").val
+                else:
+                    p_a_2 = Card(k + "h").val
+            elif v == 1:
+                p_a_3 = Card(k + "h").val
+        for k, v in b_val_collector.items():
+            if v == 2:
+                if p_b_1 == -1:
+                    p_b_1 = Card(k + "h").val
+                else:
+                    p_b_2 = Card(k + "h").val
+            elif v == 1:
+                p_b_3 = Card(k + "h").val
+        if max(p_a_1, p_a_2) > max(p_b_1, p_b_2):
+            return "player_a"
+        if max(p_a_1, p_a_2) < max(p_b_1, p_b_2):
+            return "player_b"
+        if min(p_a_1, p_a_2) > min(p_b_1, p_b_2):
+            return "player_a"
+        if min(p_a_1, p_a_2) < min(p_b_1, p_b_2):
+            return "player_b"
+        if p_a_3 > p_b_3:
+            return "player_a"
+        if p_a_3 < p_b_3:
+            return "player_b"
+        return "chop"
 
     # trips
     if player_a.hand_val == 3:
-        raise NotImplementedError
+        p_a_trip_val = -1
+        p_b_trip_val = -1
+        a_others = []
+        b_others = []
+        for k, v in a_val_collector.items():
+            if v == 3:
+                p_a_trip_val = Card(k + "h").val
+            else:
+                a_others.append(Card(k + "h").val)
+        for k, v in b_val_collector.items():
+            if v == 3:
+                p_b_trip_val = Card(k + "h").val
+            else:
+                b_others.append(Card(k + "h").val)
+        if p_a_trip_val > p_b_trip_val:
+            return "player_a"
+        elif p_a_trip_val < p_b_trip_val:
+            return "player_b"
+        for _ in range(2):
+            a_max = max(a_others)
+            b_max = max(b_others)
+            a_others.remove(a_max)
+            b_others.remove(b_max)
+            if a_max > b_max:
+                return "player_a"
+            elif a_max < b_max:
+                return "player_b"
+        return "chop"
     
     # straight
     if player_a.hand_val == 4:
@@ -524,10 +631,6 @@ def who_won(player_a, player_b):
             return "player_a"
         elif player_a.straight_val < player_b.straight_val:
             return "player_b"
-    
-    # flush
-    if player_a.hand_val == 5:
-        raise NotImplementedError
     
     # boat
     if player_a.hand_val == 6:
@@ -580,7 +683,7 @@ def who_won(player_a, player_b):
         if Card(p_b_1 + "h").val < Card(p_b_1 + "h").val:
             return "player_b"
         return "chop"
-        
+
     # straight flush
     if player_a.hand_val == 8:
         if player_a.straight_val == player_b.straight_val:
