@@ -721,3 +721,44 @@ jaxon.hand.append(f)
 jaxon.hand.append(g)
 ## royal
 ## as, ks, qs, js, 0s
+
+_________________________________________________________________________
+
+# some winner tests to run
+
+jaxon = poker_monte_carlo.Player()
+dom = poker_monte_carlo.Player()
+a = poker_monte_carlo.Card("ad")
+b = poker_monte_carlo.Card("3d")
+c = poker_monte_carlo.Card("kd")
+d = poker_monte_carlo.Card("9c")
+e = poker_monte_carlo.Card("jd")
+f = poker_monte_carlo.Card("7h")
+g = poker_monte_carlo.Card("5d")
+jaxon.hand = []
+jaxon.hand.append(a)
+jaxon.hand.append(b)
+jaxon.hand.append(c)
+jaxon.hand.append(d)
+jaxon.hand.append(e)
+jaxon.hand.append(f)
+jaxon.hand.append(g)
+a = poker_monte_carlo.Card("6c")
+b = poker_monte_carlo.Card("2s")
+c = poker_monte_carlo.Card("ad")
+d = poker_monte_carlo.Card("8h")
+e = poker_monte_carlo.Card("8s")
+f = poker_monte_carlo.Card("ah")
+g = poker_monte_carlo.Card("ac")
+dom.hand = []
+dom.hand.append(a)
+dom.hand.append(b)
+dom.hand.append(c)
+dom.hand.append(d)
+dom.hand.append(e)
+dom.hand.append(f)
+dom.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
+poker_monte_carlo.my_hand(dom)
+poker_monte_carlo.who_won(jaxon, dom)
+## dom
