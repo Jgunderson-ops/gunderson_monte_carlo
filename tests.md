@@ -2,6 +2,7 @@
 ## (initialize player first)
 ## (jaxon = poker_monte_carlo.Player())
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("3s")
 b = poker_monte_carlo.Card("0d")
 c = poker_monte_carlo.Card("8h")
@@ -17,9 +18,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## high card
 ## 0d, 9h, 8h, 6h, 5d
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("7s")
 b = poker_monte_carlo.Card("2h")
 c = poker_monte_carlo.Card("ad")
@@ -35,9 +38,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## high card
 ## 7s, ad, 9c, ks, 8h
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("0c")
 b = poker_monte_carlo.Card("ks")
 c = poker_monte_carlo.Card("5h")
@@ -53,9 +58,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## high card
 ## 0c, ks, 7h, ac, 9c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("6s")
 b = poker_monte_carlo.Card("jd")
 c = poker_monte_carlo.Card("3d")
@@ -71,9 +78,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## high card
 ## 6s, jd, 7h, 9s, qh
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("9c")
 b = poker_monte_carlo.Card("6s")
 c = poker_monte_carlo.Card("2s")
@@ -89,9 +98,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## high card
 ## 9c, 6s, qs, as, jc
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("ah")
 b = poker_monte_carlo.Card("qh")
 c = poker_monte_carlo.Card("js")
@@ -107,9 +118,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## High card
 ## ah, qh, js, 0c, 7h
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("0d")
 b = poker_monte_carlo.Card("0h")
 c = poker_monte_carlo.Card("kh")
@@ -125,9 +138,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 0d, 0h, kh, jc, 7s
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("qh")
 b = poker_monte_carlo.Card("qs")
 c = poker_monte_carlo.Card("0c")
@@ -143,9 +158,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## qh, qs, ks, jd, 0c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("qs")
 b = poker_monte_carlo.Card("jc")
 c = poker_monte_carlo.Card("2c")
@@ -161,9 +178,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## jc, jd, qs, 0s, 6c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("5h")
 b = poker_monte_carlo.Card("5c")
 c = poker_monte_carlo.Card("8h")
@@ -179,9 +198,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 5h, 5c, kc, 8h, 6s
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("5d")
 b = poker_monte_carlo.Card("2d")
 c = poker_monte_carlo.Card("8h")
@@ -197,9 +218,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 5d, 8h, 5c, 6c, as
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("6s")
 b = poker_monte_carlo.Card("2s")
 c = poker_monte_carlo.Card("5d")
@@ -215,9 +238,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 2s, 7c, 2c, kh, js
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("3c")
 b = poker_monte_carlo.Card("6c")
 c = poker_monte_carlo.Card("3s")
@@ -233,9 +258,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 3c, 3s, qd, kd, ac
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("0s")
 b = poker_monte_carlo.Card("0c")
 c = poker_monte_carlo.Card("4d")
@@ -251,9 +278,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 0s, 0c, kd, 6d, 9s
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("6d")
 b = poker_monte_carlo.Card("7d")
 c = poker_monte_carlo.Card("3d")
@@ -269,9 +298,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 6d, 7d, 9s, qh, qs
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("qs")
 b = poker_monte_carlo.Card("8h")
 c = poker_monte_carlo.Card("4s")
@@ -287,9 +318,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## qs, 8h, qh, 9d, 5c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("4h")
 b = poker_monte_carlo.Card("4c")
 c = poker_monte_carlo.Card("ad")
@@ -305,9 +338,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 4h, 4c, ad, 8s, qh
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("3h")
 b = poker_monte_carlo.Card("8d")
 c = poker_monte_carlo.Card("6d")
@@ -323,9 +358,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 8d, 6d, 0c, jh, 6c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("jh")
 b = poker_monte_carlo.Card("8d")
 c = poker_monte_carlo.Card("4c")
@@ -341,9 +378,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## jh, 5s, 0d, 5h, kh
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("qh")
 b = poker_monte_carlo.Card("5c")
 c = poker_monte_carlo.Card("3c")
@@ -359,9 +398,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## qh, 5c, 3c, 9s, 3d
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("kd")
 b = poker_monte_carlo.Card("ad")
 c = poker_monte_carlo.Card("2d")
@@ -377,9 +418,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## kd, ad, 2d, 2h, qc
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("0d")
 b = poker_monte_carlo.Card("4s")
 c = poker_monte_carlo.Card("7d")
@@ -395,9 +438,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## pair
 ## 0d, 8s, ks, 9d, 0s
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("8s")
 b = poker_monte_carlo.Card("4d")
 c = poker_monte_carlo.Card("8d")
@@ -413,9 +458,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## two pair
 ## 8s, 8d, 7s, 7d, kd
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("qs")
 b = poker_monte_carlo.Card("jc")
 c = poker_monte_carlo.Card("2c")
@@ -431,9 +478,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## two pair
 ## 3h, 3d, jc, jd, qs
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("9c")
 b = poker_monte_carlo.Card("4c")
 c = poker_monte_carlo.Card("5h")
@@ -449,9 +498,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## two pair
 ## 9c, 5h, qh, 5c, qc
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("3d")
 b = poker_monte_carlo.Card("3c")
 c = poker_monte_carlo.Card("3h")
@@ -467,9 +518,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## trips
 ## 3d, 3c, 3h, kd, 9c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("3s")
 b = poker_monte_carlo.Card("2s")
 c = poker_monte_carlo.Card("jc")
@@ -485,9 +538,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## trips
 ## 2s, jc, 2c, 2h, qc
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("7c")
 b = poker_monte_carlo.Card("kc")
 c = poker_monte_carlo.Card("6s")
@@ -503,9 +558,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## straight
 ## 3d, 4h, 5(c or h), 6s, 7c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("5h")
 b = poker_monte_carlo.Card("3h")
 c = poker_monte_carlo.Card("2s")
@@ -521,9 +578,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## straight
 ## 5h, 3h, 4c, as, 2c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("jd")
 b = poker_monte_carlo.Card("9s")
 c = poker_monte_carlo.Card("5c")
@@ -539,9 +598,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## flush
 ## jc, kc, 4c, 0c, 5c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("4h")
 b = poker_monte_carlo.Card("2h")
 c = poker_monte_carlo.Card("qh")
@@ -557,9 +618,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## flush
 ## 4h, 2h, qh, kh, 9h
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("ad")
 b = poker_monte_carlo.Card("3d")
 c = poker_monte_carlo.Card("kd")
@@ -575,9 +638,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## flush
 ## ad, 3d, kd, jd, 5d
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("ks")
 b = poker_monte_carlo.Card("8d")
 c = poker_monte_carlo.Card("6d")
@@ -593,9 +658,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## flush
 ## 8d, 6d, 3d, 9d, 4d
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("2c")
 b = poker_monte_carlo.Card("9c")
 c = poker_monte_carlo.Card("kc")
@@ -611,9 +678,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## flush
 ## 9c, kc, qc, ac, jc
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("6c")
 b = poker_monte_carlo.Card("2s")
 c = poker_monte_carlo.Card("ad")
@@ -629,9 +698,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## boat
 ## ad, ah, ac, 8h, 8s
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("8c")
 b = poker_monte_carlo.Card("6c")
 c = poker_monte_carlo.Card("4c")
@@ -647,9 +718,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## straight flush
 ## 6c, 4c, 3c, 5c, 2c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("0c")
 b = poker_monte_carlo.Card("jc")
 c = poker_monte_carlo.Card("qc")
@@ -665,9 +738,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## royal
 ## ac, kc, qc, jc, 0c
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("0h")
 b = poker_monte_carlo.Card("jh")
 c = poker_monte_carlo.Card("qh")
@@ -683,9 +758,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## royal
 ## ah, kh, qh, jh, 0h
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("0d")
 b = poker_monte_carlo.Card("jd")
 c = poker_monte_carlo.Card("qd")
@@ -701,9 +778,11 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## royal
 ## ad, kd, qd, jd, 0d
 
+jaxon = poker_monte_carlo.Player()
 a = poker_monte_carlo.Card("0s")
 b = poker_monte_carlo.Card("js")
 c = poker_monte_carlo.Card("qs")
@@ -719,6 +798,7 @@ jaxon.hand.append(d)
 jaxon.hand.append(e)
 jaxon.hand.append(f)
 jaxon.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
 ## royal
 ## as, ks, qs, js, 0s
 
@@ -761,4 +841,158 @@ dom.hand.append(g)
 poker_monte_carlo.my_hand(jaxon)
 poker_monte_carlo.my_hand(dom)
 poker_monte_carlo.who_won(jaxon, dom)
-## dom
+## player_b
+
+
+I left this big gap, because for all winner hands, I want to make a chop 
+hand with both hands as their own chop test
+
+
+
+jaxon = poker_monte_carlo.Player()
+dom = poker_monte_carlo.Player()
+a = poker_monte_carlo.Card("0d")
+b = poker_monte_carlo.Card("0h")
+c = poker_monte_carlo.Card("kh")
+d = poker_monte_carlo.Card("jc")
+e = poker_monte_carlo.Card("7s")
+f = poker_monte_carlo.Card("6h")
+g = poker_monte_carlo.Card("3h")
+jaxon.hand = []
+jaxon.hand.append(a)
+jaxon.hand.append(b)
+jaxon.hand.append(c)
+jaxon.hand.append(d)
+jaxon.hand.append(e)
+jaxon.hand.append(f)
+jaxon.hand.append(g)
+a = poker_monte_carlo.Card("qh")
+b = poker_monte_carlo.Card("qs")
+c = poker_monte_carlo.Card("0c")
+d = poker_monte_carlo.Card("ks")
+e = poker_monte_carlo.Card("jd")
+f = poker_monte_carlo.Card("7s")
+g = poker_monte_carlo.Card("6c")
+dom.hand = []
+dom.hand.append(a)
+dom.hand.append(b)
+dom.hand.append(c)
+dom.hand.append(d)
+dom.hand.append(e)
+dom.hand.append(f)
+dom.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
+poker_monte_carlo.my_hand(dom)
+poker_monte_carlo.who_won(jaxon, dom)
+## player_b
+
+jaxon = poker_monte_carlo.Player()
+dom = poker_monte_carlo.Player()
+a = poker_monte_carlo.Card("2c")
+b = poker_monte_carlo.Card("9c")
+c = poker_monte_carlo.Card("kc")
+d = poker_monte_carlo.Card("qc")
+e = poker_monte_carlo.Card("ac")
+f = poker_monte_carlo.Card("3c")
+g = poker_monte_carlo.Card("jc")
+jaxon.hand = []
+jaxon.hand.append(a)
+jaxon.hand.append(b)
+jaxon.hand.append(c)
+jaxon.hand.append(d)
+jaxon.hand.append(e)
+jaxon.hand.append(f)
+jaxon.hand.append(g)
+a = poker_monte_carlo.Card("3d")
+b = poker_monte_carlo.Card("3c")
+c = poker_monte_carlo.Card("3h")
+d = poker_monte_carlo.Card("kd")
+e = poker_monte_carlo.Card("7c")
+f = poker_monte_carlo.Card("2c")
+g = poker_monte_carlo.Card("9c")
+dom.hand = []
+dom.hand.append(a)
+dom.hand.append(b)
+dom.hand.append(c)
+dom.hand.append(d)
+dom.hand.append(e)
+dom.hand.append(f)
+dom.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
+poker_monte_carlo.my_hand(dom)
+poker_monte_carlo.who_won(jaxon, dom)
+## player_a
+
+jaxon = poker_monte_carlo.Player()
+dom = poker_monte_carlo.Player()
+a = poker_monte_carlo.Card("ad")
+b = poker_monte_carlo.Card("3d")
+c = poker_monte_carlo.Card("kd")
+d = poker_monte_carlo.Card("9c")
+e = poker_monte_carlo.Card("jd")
+f = poker_monte_carlo.Card("7h")
+g = poker_monte_carlo.Card("5d")
+jaxon.hand = []
+jaxon.hand.append(a)
+jaxon.hand.append(b)
+jaxon.hand.append(c)
+jaxon.hand.append(d)
+jaxon.hand.append(e)
+jaxon.hand.append(f)
+jaxon.hand.append(g)
+a = poker_monte_carlo.Card("ad")
+b = poker_monte_carlo.Card("3d")
+c = poker_monte_carlo.Card("kd")
+d = poker_monte_carlo.Card("9c")
+e = poker_monte_carlo.Card("jd")
+f = poker_monte_carlo.Card("7h")
+g = poker_monte_carlo.Card("5d")
+dom.hand = []
+dom.hand.append(a)
+dom.hand.append(b)
+dom.hand.append(c)
+dom.hand.append(d)
+dom.hand.append(e)
+dom.hand.append(f)
+dom.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
+poker_monte_carlo.my_hand(dom)
+poker_monte_carlo.who_won(jaxon, dom)
+## chop
+
+jaxon = poker_monte_carlo.Player()
+dom = poker_monte_carlo.Player()
+a = poker_monte_carlo.Card("6c")
+b = poker_monte_carlo.Card("2s")
+c = poker_monte_carlo.Card("ad")
+d = poker_monte_carlo.Card("8h")
+e = poker_monte_carlo.Card("8s")
+f = poker_monte_carlo.Card("ah")
+g = poker_monte_carlo.Card("ac")
+jaxon.hand = []
+jaxon.hand.append(a)
+jaxon.hand.append(b)
+jaxon.hand.append(c)
+jaxon.hand.append(d)
+jaxon.hand.append(e)
+jaxon.hand.append(f)
+jaxon.hand.append(g)
+a = poker_monte_carlo.Card("6c")
+b = poker_monte_carlo.Card("2s")
+c = poker_monte_carlo.Card("ad")
+d = poker_monte_carlo.Card("8h")
+e = poker_monte_carlo.Card("8s")
+f = poker_monte_carlo.Card("ah")
+g = poker_monte_carlo.Card("ac")
+dom.hand = []
+dom.hand.append(a)
+dom.hand.append(b)
+dom.hand.append(c)
+dom.hand.append(d)
+dom.hand.append(e)
+dom.hand.append(f)
+dom.hand.append(g)
+poker_monte_carlo.my_hand(jaxon)
+poker_monte_carlo.my_hand(dom)
+poker_monte_carlo.who_won(jaxon, dom)
+## chop
