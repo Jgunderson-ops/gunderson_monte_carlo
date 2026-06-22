@@ -697,7 +697,9 @@ def who_won(player_a, player_b):
     if player_a.hand_val == 9:
         return "chop"
 
-# def find_odds(player_a, player_b, board):
-
-# first I must establish the hands that each player type will play in
-# order to get an accurate sample of hands that this player will play
+def find_odds(player_a, player_b, board):
+    """
+    many modifications must be made
+    """
+    player_b_hand = set()
+    player_b_hand.extend(board)
