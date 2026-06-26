@@ -2,28 +2,21 @@ import random
 #import numpy as np
 #import pandas as pd
 #import mathplotlib
-from abc import ABC, abstractmethod
 
-class Player(ABC):
+class Player():
     """
-    The docstring for each player will have two attributes separated by a
-    slash. The first corresponds to the player's play style on defense, and
-    the second corresponds to their play style on offence. More specifically:
-    
     defense -> call / bluff frequency
-        - Loose, Medium, Tight
+        - loose, medium, tight
+        INPUT -> L, M, or T
     offence -> bet size
         - Weak, Medium, Agressive
+        INPUT -> W, M, A
 
     I understand that bluffing is offence, but it is more commonly associated
     with riskier play -- and fits with the attribute of calling
-
-    Some players are called by the term commonly used by poker players,
-    and some are named after the friends I play poker with who play
-    with these styles (myself included).
     """
 
-    def __init__(self, net_winnings=0, current_stack=50):
+    def __init__(self, net_winnings=0, current_stack=50, play_style="N/N"):
 
         self.net_winnings = net_winnings
         self.current_stack = current_stack
@@ -31,13 +24,18 @@ class Player(ABC):
         self.five_card = []
         self.hand_val = 0
         self.straight_val = -1
-
-    #def pot_odds(self):
-    #    raise NotImplementedError
-
-    #@abstractmethod
-    #def am_i_good(self):
-    #    raise NotImplementedError
+        if play_style[0] == "L":
+            self.defense = "loose"
+        if play_style[0] == "M":
+            self.defense = "medium"
+        if play_style[0] == "T":
+            self.defense = "tight"
+        if play_style[2] == "W":
+            self.offence = "weak"
+        if play_style[2] == "M":
+            self.offence = "medium"
+        if play_style[2] == "A":
+            self.offence = "agressive"
 
 class Card:
 
@@ -79,64 +77,118 @@ class Card:
                 self.suit = "diamonds"
         self.str_card_repr = str_card_repr
 
-# class Fish(Player):
-#     """
-#     Loose / Weak
-#     """
+def make_fresh_deck():
+    suits = ["h", "c", "s", "d"]
+    vals = ["a", "2", "3", "4", "5", "6", "7", "8", "9", "0", "j", "q", "k"]
+    deck = []
+    for i in suits:
+        for j in vals:
+            strin = j + i
+            deck.append(Card(strin))
+    return deck
 
-# class Wyatt(Player):
-#     """
-#     Loose / Medium
-#     """
-        
-# class Lag(Player):
-#     """
-#     Loose / Agressive
-#     """
-        
-# class Chedda(Player):
-#     """
-#     Medium / Weak
-#     """
+def make_loose_possibilities():
+    ldeck = make_fresh_deck()
+    loose_pos = set()
+    for i, icard in enumerate(ldeck):
+        for j, jcard in enumerate(ldeck):
+            # no dupe cards
+            if icard == jcard:
+                pass
+            # no dupe hands
+            elif (icard, jcard) in loose_pos or (jcard, icard) in loose_pos:
+                pass
+            # two cards 10+ get added
+            elif icard.val > 9 and jcard.val > 9:
+                loose_pos.add((icard, jcard))
+            # pocket pairs
+            elif icard.val == jcard.val:
+                loose_pos.add ((icard, jcard))
+            # suited aces get added
+            elif icard.val == 15 and jcard.suit == icard.suit:
+                loose_pos.add((icard, jcard))
+            # suited connectors 4+ get added
+            elif (
+                    icard.val > 3 and
+                    jcard.val == icard.val + 1 and
+                    icard.suit == jcard.suit
+                ):
+                loose_pos.add((icard, jcard))
+            elif icard.val + jcard.val > 18:
+                loose_pos.add((icard, jcard))
+    x = 1
+    for card, card2 in loose_pos:
+        print(f"({card.str_card_repr}, {card2.str_card_repr}), {x}")
+        x += 1
+    return loose_pos
 
-# class Dom(Player):
-#     """
-#     Medium / Medium
-#     """
+def make_med_possibilities():
+    mdeck = make_fresh_deck()
+    med_pos = set()
+    for i, icard in enumerate(mdeck):
+        for j, jcard in enumerate(mdeck):
+            # no dupe cards
+            if icard == jcard:
+                pass
+            # no dupe hands
+            elif (icard, jcard) in med_pos or (jcard, icard) in med_pos:
+                pass
+            # two cards 10+ get added
+            elif icard.val > 9 and jcard.val > 9:
+                med_pos.add((icard, jcard))
+            # pocket pairs
+            elif icard.val == jcard.val:
+                med_pos.add ((icard, jcard))
+            # suited aces get added
+            elif icard.val == 15 and jcard.suit == icard.suit:
+                med_pos.add((icard, jcard))
+            # suited connectors 4+ get added
+            elif (
+                    icard.val > 3 and
+                    jcard.val == icard.val + 1 and
+                    icard.suit == jcard.suit
+                ):
+                med_pos.add((icard, jcard))
+            elif icard.val + jcard.val > 20:
+                med_pos.add((icard, jcard))
+    x = 1
+    for card, card2 in med_pos:
+        print(f"({card.str_card_repr}, {card2.str_card_repr}), {x}")
+        x += 1
+    return med_pos
 
-# class Kuhn(Player):
-#     """
-#     Medium / Agressive
-#     """
-    
-# class Nit(Player):
-#     """
-#     Tight / Weak
-#     """
-    
-# class Jaxon(Player):
-#     """
-#     Tight / Medium
-#     """
-    
-# class Tag(Player):
-#     """
-#     Tight / Agressive
-#    """
-
-
-#Probably going in the loop
-suits = ["h", "c", "s", "d"]
-vals = ["a", "2", "3", "4", "5", "6", "7", "8", "9", "0", "j", "q", "k"]
-deck = []
-for i in suits:
-    for j in vals:
-        strin = j + i
-        deck.append(Card(strin))
-straights = (
-    "a2345", "23456", "34567", "45678", "56789",
-    "67890", "7890j", "890jq", "90jqk", "0jqka"
-            )
+def make_tight_possibilities():
+    tdeck = make_fresh_deck()
+    tight_pos = set()
+    for i, icard in enumerate(tdeck):
+        for j, jcard in enumerate(tdeck):
+            # no dupe cards
+            if icard == jcard:
+                pass
+            # no dupe hands
+            elif (icard, jcard) in tight_pos or (jcard, icard) in tight_pos:
+                pass
+            # two cards 10+ get added
+            elif icard.val > 9 and jcard.val > 9:
+                tight_pos.add((icard, jcard))
+            # pocket pairs
+            elif icard.val == jcard.val:
+                tight_pos.add ((icard, jcard))
+            # suited aces 7+ get added
+            elif icard.val == 15 and jcard.suit == icard.suit and jcard.val > 6:
+                tight_pos.add((icard, jcard))
+            # suited connectors 8+ get added
+            elif (
+                    icard.val > 7 and
+                    jcard.val == icard.val + 1 and
+                    icard.suit == jcard.suit
+                ):
+                tight_pos.add((icard, jcard))
+    x = 1
+    for card, card2 in tight_pos:
+        print(f"({card.str_card_repr}, {card2.str_card_repr}), {x}")
+        x += 1
+    return tight_pos
 
 def my_hand(self):
     """
@@ -144,10 +196,16 @@ def my_hand(self):
     then if it is, assemble the best hand given the hand they have.
     """
     self.five_card = []
+    
     val_collector = {"a": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0,
                      "8": 0, "9": 0, "0": 0, "j": 0, "q": 0, "k": 0}
     
     suit_collector = {"h": 0, "c": 0, "s": 0, "d": 0}
+    
+    straights = (
+    "a2345", "23456", "34567", "45678", "56789",
+    "67890", "7890j", "890jq", "90jqk", "0jqka"
+            )
     
     for card in self.hand:
         val_collector[card.str_card_repr[0]] += 1
