@@ -87,6 +87,17 @@ def make_fresh_deck():
             deck.append(Card(strin))
     return deck
 
+def all_card_combos():
+    adeck = make_fresh_deck()
+    all_set = set()
+    for i, icard in enumerate(adeck):
+        for j, jcard in enumerate(adeck):
+            if icard == jcard:
+                pass
+            elif (icard, jcard) in all_set or (jcard, icard) in all_set:
+                pass
+    return all_set
+
 def make_loose_possibilities():
     ldeck = make_fresh_deck()
     loose_pos = set()
@@ -117,9 +128,11 @@ def make_loose_possibilities():
             elif icard.val + jcard.val > 18:
                 loose_pos.add((icard, jcard))
     x = 1
-    for card, card2 in loose_pos:
-        print(f"({card.str_card_repr}, {card2.str_card_repr}), {x}")
+    for h in loose_pos:
         x += 1
+    #for card, card2 in loose_pos:
+        #print(f"({card.str_card_repr}, {card2.str_card_repr}), {x}")
+    #    x += 1
     return loose_pos
 
 def make_med_possibilities():
@@ -153,7 +166,7 @@ def make_med_possibilities():
                 med_pos.add((icard, jcard))
     x = 1
     for card, card2 in med_pos:
-        print(f"({card.str_card_repr}, {card2.str_card_repr}), {x}")
+        #print(f"({card.str_card_repr}, {card2.str_card_repr}), {x}")
         x += 1
     return med_pos
 
@@ -186,7 +199,7 @@ def make_tight_possibilities():
                 tight_pos.add((icard, jcard))
     x = 1
     for card, card2 in tight_pos:
-        print(f"({card.str_card_repr}, {card2.str_card_repr}), {x}")
+        #print(f"({card.str_card_repr}, {card2.str_card_repr}), {x}")
         x += 1
     return tight_pos
 
@@ -332,9 +345,9 @@ def my_hand(self):
                     self.five_card.insert(i, outliers[1])
                     outliers.pop(1)
                     outliers.insert(1, b)
-        for card in self.five_card:
-            print(card.str_card_repr)
-        print("high card")
+        #for card in self.five_card:
+        #    print(card.str_card_repr)
+        #print("high card")
         return self.five_card
 
     if pair:
@@ -361,9 +374,9 @@ def my_hand(self):
                         self.five_card.insert(i, outliers[c])
                         outliers.pop(c)
                         outliers.insert(c, q)
-        for card in self.five_card:
-            print(card.str_card_repr)
-        print("pair")
+        #for card in self.five_card:
+        #    print(card.str_card_repr)
+        #print("pair")
         return self.five_card
 
     if two_pair:
@@ -386,9 +399,9 @@ def my_hand(self):
                 if x.val > self.five_card[-1].val:
                     self.five_card.pop(-1)
                     self.five_card.append(x)
-        for card in self.five_card:
-            print(card.str_card_repr)
-        print("two pair")
+        #for card in self.five_card:
+        #    print(card.str_card_repr)
+        #print("two pair")
         return self.five_card
 
     if trips:
@@ -413,9 +426,9 @@ def my_hand(self):
                         self.five_card.insert(i, outliers[c])
                         outliers.pop(c)
                         outliers.insert(c, q)
-        for card in self.five_card:
-            print(card.str_card_repr)
-        print("trips")
+        #for card in self.five_card:
+        #    print(card.str_card_repr)
+        #print("trips")
         return self.five_card
 
     if straight:
@@ -425,9 +438,9 @@ def my_hand(self):
                 x.str_card_repr[0] not in cool_str):
                 self.five_card.append(x)
                 cool_str += x.str_card_repr[0]
-        for card in self.five_card:
-            print(card.str_card_repr)
-        print("straight")
+        #for card in self.five_card:
+        #    print(card.str_card_repr)
+        #print("straight")
         return self.five_card
 
     if straight_flush or royal:
@@ -438,12 +451,12 @@ def my_hand(self):
                     x.str_card_repr[1] == suit_of_interest):
                 self.five_card.append(x)
                 cool_str += x.str_card_repr[0]
-        for card in self.five_card:
-            print(card.str_card_repr)
-        if straight_flush:
-            print("straight flush")
-        if royal:
-            print("royal")
+        #for card in self.five_card:
+        #    print(card.str_card_repr)
+        #if straight_flush:
+        #    print("straight flush")
+        #if royal:
+        #    print("royal")
         return self.five_card
 
     if flush:
@@ -462,9 +475,9 @@ def my_hand(self):
                         d = outliers.pop(k)
                         self.five_card.insert(i, d)
                         outliers.insert(k, c)
-        for card in self.five_card:
-            print(card.str_card_repr)
-        print("flush")
+        #for card in self.five_card:
+        #    print(card.str_card_repr)
+        #print("flush")
         return self.five_card
 
     if quads:
@@ -485,9 +498,9 @@ def my_hand(self):
                 card.str_card_repr[0] != special):
                     self.five_card.pop(-1)
                     self.five_card.append(card)
-        print("quads")
-        for card in self.five_card:
-            print(card.str_card_repr)
+        #print("quads")
+        #for card in self.five_card:
+        #    print(card.str_card_repr)
         return self.five_card
 
     if boat:
@@ -537,9 +550,9 @@ def my_hand(self):
         for card in self.hand:
             if card.val == cool_cool and len(self.five_card) < 5:
                 self.five_card.append(card)
-        for card in self.five_card:
-            print(card.str_card_repr)
-        print("boat")
+        #for card in self.five_card:
+        #    print(card.str_card_repr)
+        #print("boat")
         return self.five_card
 
 def who_won(player_a, player_b):
@@ -755,9 +768,55 @@ def who_won(player_a, player_b):
     if player_a.hand_val == 9:
         return "chop"
 
-def find_odds(player_a, player_b, board):
+def find_odds(player_a_hand, player_b_play_style, board):
     """
     many modifications must be made
     """
-    player_b_hand = set()
-    player_b_hand.extend(board)
+    deck_h = make_fresh_deck()
+    wins = 0
+    ties = 0
+    losses = 0
+    a_clone = Player()
+    b_clone = Player()
+    a_clone.hand = player_a_hand[:]
+    if player_b_play_style == "loose":
+        x = make_loose_possibilities()
+    elif player_b_play_style == "medium":
+        x = make_med_possibilities()
+    elif player_b_play_style == "tight":
+        x = make_tight_possibilities()
+    if len(board) == 3:
+        for each_hand in x:
+            b_clone.hand = board[:]
+            if each_hand[0] in a_clone.hand or each_hand[1] in a_clone.hand:
+                pass
+            else:
+                b_clone.hand.append(each_hand[0])
+                b_clone.hand.append(each_hand[1])
+                for card1 in deck_h:
+                    for card2 in deck_h:
+                        if (
+                            card1 in a_clone.hand or
+                            card2 in a_clone.hand or
+                            card1 == card2
+                            ):
+                            pass
+                        else:
+                            a_clone.hand.append(card1)
+                            a_clone.hand.append(card2)
+                            b_clone.hand.append(card1)
+                            b_clone.hand.append(card2)
+                            my_hand(a_clone)
+                            my_hand(b_clone)
+                            h = who_won(a_clone, b_clone)
+                            if h == "player_a":
+                                wins += 1
+                            elif h == "player_b":
+                                losses += 1
+                            elif h == "chop":
+                                ties += 1
+                            a_clone.hand.pop(-1)
+                            a_clone.hand.pop(-1)
+                            b_clone.hand.pop(-1)
+                            b_clone.hand.pop(-1)
+        return f"wins={wins}, ties={ties}, losses={losses}"
