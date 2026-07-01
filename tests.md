@@ -996,3 +996,15 @@ poker_monte_carlo.my_hand(jaxon)
 poker_monte_carlo.my_hand(dom)
 poker_monte_carlo.who_won(jaxon, dom)
 ## chop
+
+
+________________________________________________
+
+jaxon.hand = []
+a = poker_monte_carlo.Card("")
+b = poker_monte_carlo.Card("")
+jaxon.hand.append(a)
+jaxon.hand.append(b)
+poker_monte_carlo.find_odds_chevy(jaxon.hand, "loose", [])
+poker_monte_carlo.find_odds_chevy(jaxon.hand, "medium", [])
+poker_monte_carlo.find_odds_chevy(jaxon.hand, "tight", [])

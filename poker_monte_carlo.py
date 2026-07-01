@@ -1,9 +1,10 @@
 import random
+import time
 #import numpy as np
 #import pandas as pd
 #import mathplotlib
 
-class Player():
+class Player:
     """
     defense -> call / bluff frequency
         - loose, medium, tight
@@ -52,6 +53,8 @@ class Card:
         self.suit = "undetermined"
         # determine value
         if True:
+            if str_card_repr[0] not in "0123456789jqka":
+                raise ValueError(f"invalid card format: {str_card_repr}")
             if str_card_repr[0] == "0":
                 self.val = 10
             elif str_card_repr[0] == "j":
@@ -86,17 +89,6 @@ def make_fresh_deck():
             strin = j + i
             deck.append(Card(strin))
     return deck
-
-def all_card_combos():
-    adeck = make_fresh_deck()
-    all_set = set()
-    for i, icard in enumerate(adeck):
-        for j, jcard in enumerate(adeck):
-            if icard == jcard:
-                pass
-            elif (icard, jcard) in all_set or (jcard, icard) in all_set:
-                pass
-    return all_set
 
 def make_loose_possibilities():
     ldeck = make_fresh_deck()
@@ -517,17 +509,17 @@ def my_hand(self):
             if v == 3:
                 threes += 1
                 if s_3_1 == ("", 0):
-                    s_3_1 = (k, Card(k + "h").val)
+                    s_3_1 = (k, Card(k + "d").val)
                 else:
-                    s_3_2 = (k, Card(k + "h").val)
+                    s_3_2 = (k, Card(k + "d").val)
             if v == 2:
                 twos += 1
                 if s_2_1 == ("", 0):
-                    s_2_1 = (k, Card(k + "h").val)
+                    s_2_1 = (k, Card(k + "d").val)
                 elif s_2_2 == ("", 0):
-                    s_2_2 = (k, Card(k + "h").val)
+                    s_2_2 = (k, Card(k + "d").val)
                 else:
-                    s_2_3 = (k, Card(k + "h").val)
+                    s_2_3 = (k, Card(k + "d").val)
         if s_3_2 == ("", 0):
             for card in self.hand:
                 if card.str_card_repr[0] == s_3_1[0]:
@@ -602,14 +594,14 @@ def who_won(player_a, player_b):
         b_others = []
         for k, v in a_val_collector.items():
             if v == 2:
-                p_a_pair_val = Card(k + "h").val
+                p_a_pair_val = Card(k + "d").val
             else:
-                a_others.append(Card(k + "h").val)
+                a_others.append(Card(k + "d").val)
         for k, v in b_val_collector.items():
             if v == 2:
-                p_b_pair_val = Card(k + "h").val
+                p_b_pair_val = Card(k + "s").val
             elif v > 0:
-                b_others.append(Card(k + "h").val)
+                b_others.append(Card(k + "c").val)
         if p_a_pair_val > p_b_pair_val:
             return "player_a"
         elif p_a_pair_val < p_b_pair_val:
@@ -636,19 +628,19 @@ def who_won(player_a, player_b):
         for k, v in a_val_collector.items():
             if v == 2:
                 if p_a_1 == -1:
-                    p_a_1 = Card(k + "h").val
+                    p_a_1 = Card(k + "d").val
                 else:
-                    p_a_2 = Card(k + "h").val
+                    p_a_2 = Card(k + "d").val
             elif v == 1:
-                p_a_3 = Card(k + "h").val
+                p_a_3 = Card(k + "c").val
         for k, v in b_val_collector.items():
             if v == 2:
                 if p_b_1 == -1:
-                    p_b_1 = Card(k + "h").val
+                    p_b_1 = Card(k + "s").val
                 else:
-                    p_b_2 = Card(k + "h").val
+                    p_b_2 = Card(k + "d").val
             elif v == 1:
-                p_b_3 = Card(k + "h").val
+                p_b_3 = Card(k + "d").val
         if max(p_a_1, p_a_2) > max(p_b_1, p_b_2):
             return "player_a"
         if max(p_a_1, p_a_2) < max(p_b_1, p_b_2):
@@ -671,14 +663,14 @@ def who_won(player_a, player_b):
         b_others = []
         for k, v in a_val_collector.items():
             if v == 3:
-                p_a_trip_val = Card(k + "h").val
+                p_a_trip_val = Card(k + "c").val
             else:
-                a_others.append(Card(k + "h").val)
+                a_others.append(Card(k + "s").val)
         for k, v in b_val_collector.items():
             if v == 3:
-                p_b_trip_val = Card(k + "h").val
+                p_b_trip_val = Card(k + "d").val
             else:
-                b_others.append(Card(k + "h").val)
+                b_others.append(Card(k + "d").val)
         if p_a_trip_val > p_b_trip_val:
             return "player_a"
         elif p_a_trip_val < p_b_trip_val:
@@ -705,30 +697,22 @@ def who_won(player_a, player_b):
     
     # boat
     if player_a.hand_val == 6:
-        p_a_3 = ""
-        p_a_2 = ""
-        p_b_3 = ""
-        p_b_2 = ""
-        for k, v in a_val_collector.items():
-            if v == 3:
-                p_a_3 = k
-            if v == 2:
-                p_a_2 = k
-        for k, v in b_val_collector.items():
-            if v == 3:
-                p_b_3 = k
-            if v == 2:
-                p_b_2 = k
-        if Card(p_a_3 + "h").val > Card(p_b_3 + "h").val:
+        a_vals = [card.val for card in player_a.five_card]
+        b_vals = [card.val for card in player_b.five_card]
+        p_a_3 = max(set(a_vals), key=a_vals.count)
+        p_a_2 = min(set(a_vals), key=a_vals.count)
+        p_b_3 = max(set(b_vals), key=b_vals.count)
+        p_b_2 = min(set(b_vals), key=b_vals.count)
+        if p_a_3 > p_b_3:
             return "player_a"
-        if Card(p_a_3 + "h").val < Card(p_b_3 + "h").val:
+        if p_a_3 < p_b_3:
             return "player_b"
-        if Card(p_a_2 + "h").val > Card(p_b_2 + "h").val:
+        if p_a_2 > p_b_2:
             return "player_a"
-        if Card(p_b_2 + "h").val < Card(p_b_2 + "h").val:
+        if p_a_2 < p_b_2:
             return "player_b"
         return "chop"
-    
+
     # quads
     if player_a.hand_val == 7:
         p_a_4 = ""
@@ -745,13 +729,13 @@ def who_won(player_a, player_b):
                 p_b_4 = k
             if v == 1:
                 p_b_1 = k
-        if Card(p_a_4 + "h").val > Card(p_b_4 + "h").val:
+        if Card(p_a_4 + "h").val > Card(p_b_4 + "c").val:
             return "player_a"
-        if Card(p_a_4 + "h").val < Card(p_b_4 + "h").val:
+        if Card(p_a_4 + "h").val < Card(p_b_4 + "s").val:
             return "player_b"
-        if Card(p_a_1 + "h").val > Card(p_b_1 + "h").val:
+        if Card(p_a_1 + "h").val > Card(p_b_1 + "d").val:
             return "player_a"
-        if Card(p_b_1 + "h").val < Card(p_b_1 + "h").val:
+        if Card(p_b_1 + "h").val < Card(p_b_1 + "d").val:
             return "player_b"
         return "chop"
 
@@ -768,7 +752,161 @@ def who_won(player_a, player_b):
     if player_a.hand_val == 9:
         return "chop"
 
-def find_odds(player_a_hand, player_b_play_style, board):
+def find_odds_chevy(player_a_hand, player_b_play_style, board):
+    import time
+    trials = 1000
+    preflop = False
+    flop = False
+    turn = False
+    start = time.perf_counter()
+    deck_h = make_fresh_deck()
+    wins = 0
+    ties = 0
+    losses = 0
+    a_clone = Player()
+    b_clone = Player()
+    a_clone.hand = player_a_hand[:]
+    if player_b_play_style == "loose":
+        x = make_loose_possibilities()
+    elif player_b_play_style == "medium":
+        x = make_med_possibilities()
+    elif player_b_play_style == "tight":
+        x = make_tight_possibilities()
+    elif player_b_play_style == "all_combos":
+        x = all_card_combos()
+    hand_set = list(x)
+    for _ in range(trials):
+        b_clone.hand = board[:]
+        each_hand = hand_set[random.randint(0, len(hand_set) - 1)]
+        while each_hand[0] in a_clone.hand or each_hand[1] in a_clone.hand:
+            each_hand = hand_set[random.randint(0, len(hand_set) - 1)]
+        b_clone.hand.append(each_hand[0])
+        b_clone.hand.append(each_hand[1])
+        if len(board) == 0:
+            card1 = deck_h[random.randint(0, 51)]
+            card2 = deck_h[random.randint(0, 51)]
+            card3 = deck_h[random.randint(0, 51)]
+            card4 = deck_h[random.randint(0, 51)]
+            card5 = deck_h[random.randint(0, 51)]
+            ddd = [card1, card2, card3, card4, card5]
+            w = {}
+            for card in ddd:
+                if card not in w:
+                    w[card] = 0
+                else:
+                    w[card] += 1
+            while (
+                card1 in a_clone.hand or
+                card2 in a_clone.hand or
+                card3 in a_clone.hand or
+                card4 in a_clone.hand or
+                card5 in a_clone.hand or
+                max(w.values()) > 1
+            ):
+                card1 = deck_h[random.randint(0, 51)]
+                card2 = deck_h[random.randint(0, 51)]
+                card3 = deck_h[random.randint(0, 51)]
+                card4 = deck_h[random.randint(0, 51)]
+                card5 = deck_h[random.randint(0, 51)]
+                ddd = [card1, card2, card3, card4, card5]
+                w = {}
+                for card in ddd:
+                    if card not in w:
+                        w[card] = 0
+                    else:
+                        w[card] += 1
+            a_clone.hand.append(card1)
+            a_clone.hand.append(card2)
+            a_clone.hand.append(card3)
+            a_clone.hand.append(card4)
+            a_clone.hand.append(card5)
+            b_clone.hand.append(card1)
+            b_clone.hand.append(card2)
+            b_clone.hand.append(card3)
+            b_clone.hand.append(card4)
+            b_clone.hand.append(card5)
+            preflop = True
+        elif len(board) == 3:
+            card1 = deck_h[random.randint(0, 51)]
+            card2 = deck_h[random.randint(0, 51)]
+            while (
+                card1 in a_clone.hand or
+                card2 in a_clone.hand or
+                card1 == card2
+                ):
+                card1 = deck_h[random.randint(0, 51)]
+                card2 = deck_h[random.randint(0, 51)]
+            a_clone.hand.append(card1)
+            a_clone.hand.append(card2)
+            b_clone.hand.append(card1)
+            b_clone.hand.append(card2)
+            flop = True
+        elif len(board) == 4:
+            card1 = deck_h[random.randint(0, 51)]
+            while card1 in a_clone.hand:
+                card1 = deck_h[random.randint(0, 51)]
+            a_clone.hand.append(card1)
+            b_clone.hand.append(card1)
+            turn = True
+        my_hand(a_clone)
+        my_hand(b_clone)
+        super_super_cool = who_won(a_clone, b_clone)
+        if super_super_cool == "player_a":
+            wins += 1
+        elif super_super_cool == "player_b":
+            losses += 1
+        elif super_super_cool == "chop":
+            ties += 1
+        if preflop:
+            for _ in range(5):
+                a_clone.hand.pop(-1)
+                b_clone.hand.pop(-1)
+        if flop:
+            for _ in range(2):
+                a_clone.hand.pop(-1)
+                b_clone.hand.pop(-1)
+        if turn:
+            a_clone.hand.pop(-1)
+            b_clone.hand.pop(-1)
+    end = time.perf_counter()
+    print("Elapsed:", end - start, "seconds")
+    #return f"wins={wins}, ties={ties}, losses={losses} wp = {wins / trials} tp = {ties / trials} lp = {losses / trials}"
+    #print(f"WP: {wins / trials}")
+    #print(f"TP: {ties / trials}")
+    #print(f"LP: {losses / trials}")
+    return ((wins / trials) - (losses / trials))
+
+# The Graveyard (unused assets)
+
+def all_card_combos():
+    adeck = make_fresh_deck()
+    all_set = set()
+    for i, icard in enumerate(adeck):
+        for j, jcard in enumerate(adeck):
+            if icard == jcard:
+                pass
+            elif (icard, jcard) in all_set or (jcard, icard) in all_set:
+                pass
+            else:
+                all_set.add((icard, jcard))
+    return all_set
+
+def all_card_combos_ranked():
+    x = all_card_combos()
+    all_combos = list(x)
+    ranked_hands = []
+    for combo in all_combos:
+        unidentified = Player()
+        unidentified.hand.append(combo[0])
+        unidentified.hand.append(combo[1])
+        d = find_odds_chevy(unidentified.hand, "all_combos", [])
+        ranked_hands.append((f"{combo[0].str_card_repr}/{combo[1].str_card_repr}", d))
+    ranked_sorted = sorted(ranked_hands, key=lambda x: x[1], reverse=True)
+    return ranked_sorted
+
+    
+
+def find_odds_ferrari(player_a_hand, player_b_play_style, board):
     """
     many modifications must be made
     """
