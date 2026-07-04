@@ -19,11 +19,16 @@ class Player:
 
     def __init__(self, net_winnings=0, current_stack=50, play_style="N/N"):
 
+        # net winnings does not include stack
         self.net_winnings = net_winnings
         self.current_stack = current_stack
         self.hand = []
         self.five_card = []
         self.hand_val = 0
+        self.still_in = False
+        self.payment_due = False
+        self.prev_stack = current_stack
+        self.special_seat = "not_special"
         self.straight_val = -1
         if play_style[0] == "L":
             self.defense = "loose"
@@ -876,8 +881,6 @@ def find_odds_chevy(player_a_hand, player_b_play_style, board):
     #print(f"LP: {losses / trials}")
     return ((wins / trials) - (losses / trials))
 
-# The Graveyard (unused assets)
-
 def all_card_combos():
     adeck = make_fresh_deck()
     all_set = set()
@@ -903,8 +906,6 @@ def all_card_combos_ranked():
         ranked_hands.append((f"{combo[0].str_card_repr}/{combo[1].str_card_repr}", d))
     ranked_sorted = sorted(ranked_hands, key=lambda x: x[1], reverse=True)
     return ranked_sorted
-
-    
 
 def find_odds_ferrari(player_a_hand, player_b_play_style, board):
     """
@@ -958,3 +959,52 @@ def find_odds_ferrari(player_a_hand, player_b_play_style, board):
                             b_clone.hand.pop(-1)
                             b_clone.hand.pop(-1)
         return f"wins={wins}, ties={ties}, losses={losses}"
+
+def find_pot_odds(call_cost, pot_size):
+    return call_cost / (pot_size + call_cost)
+
+def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
+    """
+    Initialize players that you want around the table and put them in a list.
+    The loop will choose their seating arrangement and the rest. 
+    """
+    while night_counter < num_nights:
+        while hands_played_tonight < num_hands_per_night:
+            # remembering order of players and rotating the button
+            order_for_next_game = players_list[:]
+            a = order_for_next_game.pop(0)
+            order_for_next_game.append(a)
+            
+            # initialize game / deal cards
+            for player in players_list:
+                player.still_in = True
+                player.hand = []
+                player.five_card = []
+                player.hand_val = 0
+                player.straight_val = -1
+            
+            official_deck = make_fresh_deck()
+            pot = 0
+            for _ in range(2):
+                for i, player in enumerate(players_list):
+                    new_card = official_deck.pop()
+                    player.hand.append(new_card)
+                    if i == 0:
+                        player.special_seat = "dealer"
+                        player.payment_due = True
+                    elif i == 1:
+                        player.special_seat = "small_blind"
+                        player.payment_due = True
+                    elif i == 2:
+                        player.special_seat = "big_blind"
+                        player.payment_due = False
+                    else:
+                        player.special_seat = "not_special"
+                        player.payment_due = True
+            for i, player in players_list:
+                if player.current_stack < 2:
+                    player.current_stack += buy_in_val
+                    player.net_winnings -= buy_in_val
+                player.prev_stack = player.current_stack
+            # preflop
+            
