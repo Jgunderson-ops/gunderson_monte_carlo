@@ -17,7 +17,9 @@ class Player:
     with riskier play -- and fits with the attribute of calling
     """
 
-    def __init__(self, net_winnings=0, current_stack=50, play_style="N/N"):
+    def __init__(
+        self, name="", net_winnings=0, current_stack=50, play_style="N/N"
+        ):
 
         # net winnings does not include stack
         self.net_winnings = net_winnings
@@ -26,8 +28,8 @@ class Player:
         self.five_card = []
         self.hand_val = 0
         self.still_in = False
-        self.payment_due = False
         self.prev_stack = current_stack
+        self.name = name
         self.special_seat = "not_special"
         self.straight_val = -1
         if play_style[0] == "L":
@@ -44,7 +46,10 @@ class Player:
             self.offence = "agressive"
 
 class Card:
-
+    def __eq__(self, other):
+        return isinstance(other, Card) and self.str_card_repr == other.str_card_repr
+    def __hash__(self):
+        return hash(self.str_card_repr)
     def __init__(self, str_card_repr: str) -> None:
         """
         10 will be represented in the string as 0, but will have a value of 10
@@ -853,15 +858,18 @@ def find_odds_chevy(player_a_hand, player_b_play_style, board):
             a_clone.hand.append(card1)
             b_clone.hand.append(card1)
             turn = True
-        my_hand(a_clone)
-        my_hand(b_clone)
-        super_super_cool = who_won(a_clone, b_clone)
-        if super_super_cool == "player_a":
-            wins += 1
-        elif super_super_cool == "player_b":
-            losses += 1
-        elif super_super_cool == "chop":
-            ties += 1
+        try:
+            my_hand(a_clone)
+            my_hand(b_clone)
+            super_super_cool = who_won(a_clone, b_clone)
+            if super_super_cool == "player_a":
+                wins += 1
+            elif super_super_cool == "player_b":
+                losses += 1
+            elif super_super_cool == "chop":
+                ties += 1
+        except Exception as e:
+            pass
         if preflop:
             for _ in range(5):
                 a_clone.hand.pop(-1)
@@ -874,7 +882,7 @@ def find_odds_chevy(player_a_hand, player_b_play_style, board):
             a_clone.hand.pop(-1)
             b_clone.hand.pop(-1)
     end = time.perf_counter()
-    print("Elapsed:", end - start, "seconds")
+    #print("Elapsed:", end - start, "seconds")
     #return f"wins={wins}, ties={ties}, losses={losses} wp = {wins / trials} tp = {ties / trials} lp = {losses / trials}"
     #print(f"WP: {wins / trials}")
     #print(f"TP: {ties / trials}")
@@ -963,11 +971,43 @@ def find_odds_ferrari(player_a_hand, player_b_play_style, board):
 def find_pot_odds(call_cost, pot_size):
     return call_cost / (pot_size + call_cost)
 
+def how_many_in_pot(p_list):
+    x = 0
+    for player in p_list:
+        if player.still_in:
+            x += 1
+    return x
+
+def are_all_players_compliant(dict_for_comp):
+    for k, v in dict_for_comp:
+        if not v:
+            return False
+    return True
+
+def opp_player_makeup(caller, p_list):
+    loose = 0
+    medium = 0
+    tight = 0
+    for player in p_list:
+        if player.still_in and player != caller:
+            if player.defense == "loose":
+                loose += 1
+            elif player.defense == "medium":
+                medium += 1
+            elif player.defense == "tight":
+                tight += 1
+    return (loose, medium, tight)
+
 def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
     """
     Initialize players that you want around the table and put them in a list.
     The loop will choose their seating arrangement and the rest. 
     """
+    night_counter = 0
+    hands_played_tonight = 0
+    loose_pos = make_loose_possibilities()
+    med_pos = make_med_possibilities()
+    tight_pos = make_tight_possibilities()
     while night_counter < num_nights:
         while hands_played_tonight < num_hands_per_night:
             # remembering order of players and rotating the button
@@ -976,6 +1016,8 @@ def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
             order_for_next_game.append(a)
             
             # initialize game / deal cards
+            compliance_dict = {}
+            game_board = []
             for player in players_list:
                 player.still_in = True
                 player.hand = []
@@ -984,27 +1026,70 @@ def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
                 player.straight_val = -1
             
             official_deck = make_fresh_deck()
+            random.shuffle(official_deck)
             pot = 0
             for _ in range(2):
                 for i, player in enumerate(players_list):
-                    new_card = official_deck.pop()
+                    new_card = official_deck.pop(random.randint(0, 20))
                     player.hand.append(new_card)
                     if i == 0:
                         player.special_seat = "dealer"
-                        player.payment_due = True
+                        compliance_dict[player.name] = False
                     elif i == 1:
                         player.special_seat = "small_blind"
-                        player.payment_due = True
+                        compliance_dict[player.name] = False
                     elif i == 2:
                         player.special_seat = "big_blind"
-                        player.payment_due = False
+                        compliance_dict[player.name] = True
                     else:
                         player.special_seat = "not_special"
-                        player.payment_due = True
-            for i, player in players_list:
+                        compliance_dict[player.name] = False
+            for i, player in enumerate(players_list):
                 if player.current_stack < 2:
                     player.current_stack += buy_in_val
                     player.net_winnings -= buy_in_val
                 player.prev_stack = player.current_stack
             # preflop
-            
+            for i, player in enumerate(players_list):
+                if player.defense == "loose":
+                    if (
+                        (player.hand[0], player.hand[1]) in loose_pos or
+                        (player.hand[1], player.hand[0]) in loose_pos):
+                        print("|||||||||||||||||||||||||||")
+                        print(f"{player.name} in")
+                        for card in player.hand:
+                            print(card.str_card_repr)
+                    else:
+                        print("|||||||||||||||||||||||||||")
+                        print(f"{player.name} out")
+                        for card in player.hand:
+                            print(card.str_card_repr)
+                if player.defense == "medium":
+                    if (
+                    (player.hand[0], player.hand[1]) in med_pos or
+                    (player.hand[1], player.hand[0]) in med_pos):
+                        print("|||||||||||||||||||||||||||")
+                        print(f"{player.name} in")
+                        for card in player.hand:
+                            print(card.str_card_repr)
+                    else:
+                        print("|||||||||||||||||||||||||||")
+                        print(f"{player.name} out")
+                        for card in player.hand:
+                            print(card.str_card_repr)
+                if player.defense == "tight":
+                    if (
+                    (player.hand[0], player.hand[1]) in tight_pos or
+                    (player.hand[1], player.hand[0]) in tight_pos):
+                        print("|||||||||||||||||||||||||||")
+                        print(f"{player.name} in")
+                        for card in player.hand:
+                            print(card.str_card_repr)
+                    else:
+                        print("|||||||||||||||||||||||||||")
+                        print(f"{player.name} out")
+                        for card in player.hand:
+                            print(card.str_card_repr)
+            print("________________________________________")
+            night_counter += 1
+            hands_played_tonight += 1

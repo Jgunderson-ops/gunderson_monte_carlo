@@ -1008,3 +1008,26 @@ jaxon.hand.append(b)
 poker_monte_carlo.find_odds_chevy(jaxon.hand, "loose", [])
 poker_monte_carlo.find_odds_chevy(jaxon.hand, "medium", [])
 poker_monte_carlo.find_odds_chevy(jaxon.hand, "tight", [])
+
+
+
+
+p_l = []
+jaxon = poker_monte_carlo.Player("jax", 0, 50, "L/W")
+dom = poker_monte_carlo.Player("dom", 0, 50, "L/M")
+perdz = poker_monte_carlo.Player("perdz", 0, 50, "L/A")
+mark = poker_monte_carlo.Player("mark", 0, 50, "M/W")
+connor = poker_monte_carlo.Player("con", 0, 50, "M/M")
+mig = poker_monte_carlo.Player("mig", 0, 50, "M/A")
+ched = poker_monte_carlo.Player("ched", 0, 50, "T/W")
+wyatt = poker_monte_carlo.Player("wyatt", 0, 50, "T/M")
+oscar = poker_monte_carlo.Player("oscar", 0, 50, "T/A")
+p_l.append(jaxon)
+p_l.append(dom)
+p_l.append(perdz)
+p_l.append(mark)
+p_l.append(connor)
+p_l.append(mig)
+p_l.append(ched)
+p_l.append(wyatt)
+p_l.append(oscar)
