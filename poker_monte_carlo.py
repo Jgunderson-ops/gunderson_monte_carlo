@@ -28,6 +28,7 @@ class Player:
         self.five_card = []
         self.hand_val = 0
         self.still_in = False
+        self.money_in_this_round = 0
         self.prev_stack = current_stack
         self.name = name
         self.special_seat = "not_special"
@@ -1023,11 +1024,14 @@ def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
                 player.hand = []
                 player.five_card = []
                 player.hand_val = 0
+                p_l = []
+                player.money_in_this_round = 0
                 player.straight_val = -1
             
             official_deck = make_fresh_deck()
             random.shuffle(official_deck)
             pot = 0
+            needed_bet = 2
             for _ in range(2):
                 for i, player in enumerate(players_list):
                     new_card = official_deck.pop(random.randint(0, 20))
@@ -1045,6 +1049,14 @@ def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
                         player.special_seat = "not_special"
                         compliance_dict[player.name] = False
             for i, player in enumerate(players_list):
+                if player.special_seat == "small_blind":
+                    player.money_in_this_round = 1
+                    player.current_stack -= 1
+                    pot += 1
+                if player.special_seat == "big_blind":
+                    player.money_in_this_round = 2
+                    player.current_stack -= 2
+                    pot += 2
                 if player.current_stack < 2:
                     player.current_stack += buy_in_val
                     player.net_winnings -= buy_in_val
@@ -1054,7 +1066,9 @@ def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
                 if player.defense == "loose":
                     if (
                         (player.hand[0], player.hand[1]) in loose_pos or
-                        (player.hand[1], player.hand[0]) in loose_pos):
+                        (player.hand[1], player.hand[0]) in loose_pos or
+                        player.money_in_this_round == needed_bet or
+                        find_pot_odds((needed_bet - player.money_in_this_round), pot) >= find_odds_chevy(player.hand, "loose", [])):
                         print("|||||||||||||||||||||||||||")
                         print(f"{player.name} in")
                         for card in player.hand:
@@ -1067,7 +1081,9 @@ def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
                 if player.defense == "medium":
                     if (
                     (player.hand[0], player.hand[1]) in med_pos or
-                    (player.hand[1], player.hand[0]) in med_pos):
+                    (player.hand[1], player.hand[0]) in med_pos or
+                    player.money_in_this_round == needed_bet or
+                    find_pot_odds((needed_bet - player.money_in_this_round), pot) >= find_odds_chevy(player.hand, "medium", [])):
                         print("|||||||||||||||||||||||||||")
                         print(f"{player.name} in")
                         for card in player.hand:
@@ -1080,7 +1096,9 @@ def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
                 if player.defense == "tight":
                     if (
                     (player.hand[0], player.hand[1]) in tight_pos or
-                    (player.hand[1], player.hand[0]) in tight_pos):
+                    (player.hand[1], player.hand[0]) in tight_pos or
+                    player.money_in_this_round == needed_bet or
+                    find_pot_odds((needed_bet - player.money_in_this_round), pot) >= find_odds_chevy(player.hand, "tight", [])):
                         print("|||||||||||||||||||||||||||")
                         print(f"{player.name} in")
                         for card in player.hand:
@@ -1091,5 +1109,6 @@ def the_big_game(players_list, num_nights, num_hands_per_night, buy_in_val):
                         for card in player.hand:
                             print(card.str_card_repr)
             print("________________________________________")
+            print(pot)
             night_counter += 1
             hands_played_tonight += 1
